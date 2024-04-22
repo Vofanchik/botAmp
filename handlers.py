@@ -6,7 +6,7 @@ from aiogram.methods import send_document
 
 
 router = Router()
-user_id_required = [964528149, 836938462, 1210382320, 836740513]
+user_id_required = [964528149, 836938462, 1210382320, 836740513, 7026495997]
 
 
 @router.message(Command("start"))
@@ -27,4 +27,4 @@ async def start_handler(msg: Message):
 @router.message(Command("file"))
 async def file_handler(msg: Message):
     if msg.from_user.id in user_id_required:
-        await msg.answer_document(FSInputFile(r"requirements.txt"))
+        await msg.answer_document(FSInputFile(r"/media/samba/private/main_file.xlsx"))
