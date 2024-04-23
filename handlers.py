@@ -14,14 +14,9 @@ async def start_handler(msg: Message):
     await msg.answer("Привет! Я помогу тебе узнать твой ID, просто отправь мне любое сообщение")
 
 
-# @router.message()
-# async def message_handler(msg: Message):
-#     if msg.from_user.id in user_id_required:
-#         await msg.answer(f"привет Вовка")
-#         print(f"Твой ID: {msg.from_user.id}")
-#
-#     await msg.answer(f"Твой ID: {msg.from_user.id}")
-#     print(f"Твой ID: {msg.from_user.id}")
+@router.message()
+async def message_handler(msg: Message):
+    await msg.answer(f"Твой ID: {msg.from_user.id}")
 
 
 @router.message(Command("file"))
