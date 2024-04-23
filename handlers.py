@@ -1,12 +1,12 @@
 from aiogram import types, F, Router
 from aiogram.types import Message
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandObject
 from aiogram.types import FSInputFile
 from aiogram.methods import send_document
-
+import config
+from xlsx_logic import find_name
 
 router = Router()
-user_id_required = [964528149, 836938462, 1210382320, 836740513, 7026495997]
 
 
 @router.message(Command("start"))
@@ -26,5 +26,17 @@ async def start_handler(msg: Message):
 
 @router.message(Command("file"))
 async def file_handler(msg: Message):
-    if msg.from_user.id in user_id_required:
-        await msg.answer_document(FSInputFile(r"/media/samba/private/main_file.xlsx"))
+    if msg.from_user.id in config.user_id_required:
+        await msg.answer_document(FSInputFile(config.path_to_main))
+
+
+@router.message(Command("f"))
+async def find_handler(msg: Message, command: CommandObject):
+    if command.args is None:
+        await msg.answer(
+            "Ошибка: не переданы аргументы"
+        )
+        return
+
+    await msg.answer(str(find_name(command.args)))
+# /media/samba/private/main_file.xlsx
