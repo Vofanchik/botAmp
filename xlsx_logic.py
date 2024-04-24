@@ -11,10 +11,13 @@ def find_name(name):
         for cell in row:
             try:
                 if name in cell.value:
-                    data = {'name': name, 'company': ws.cell(row=cell.row, column=5).value,
+                    data = {'name': ws.cell(row=cell.row, column=8).value,
+                            'company': ws.cell(row=cell.row, column=5).value,
                             'localization': ws.cell(row=cell.row, column=2).value,
                             'phase': ws.cell(row=cell.row, column=10).value}
                     found.append(data)
             except:
                 continue
     return found
+
+
