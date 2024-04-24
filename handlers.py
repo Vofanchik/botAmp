@@ -11,10 +11,10 @@ router = Router()
 
 @router.message(Command("start"))
 async def start_handler(msg: Message):
-    await msg.answer("Привет! Я помогу тебе узнать твой ID, просто отправь мне любое сообщение")
+    await msg.answer("Привет! Жду команду")
 
 
-@router.message()
+@router.message(Command("id"))
 async def message_handler(msg: Message):
     await msg.answer(f"Твой ID: {msg.from_user.id}")
 
