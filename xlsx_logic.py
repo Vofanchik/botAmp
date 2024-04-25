@@ -71,6 +71,12 @@ def find_tel_name(name):
                     else:
                         data['tel'] = 'нет данных'
 
+                    clinic = ws.cell(row=cell.row, column=7).value
+                    if clinic:
+                        data['clinic'] = clinic
+                    else:
+                        data['clinic'] = 'нет данных'
+
                     found.append(data)
                 else:
                     continue
@@ -80,5 +86,5 @@ def find_tel_name(name):
 
 if __name__ == "__main__":
     print(find_name('Генинсон'))
-    print(find_tel_name('Ильченко'))
+    print(find_tel_name('Генинсон'))
 

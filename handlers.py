@@ -85,6 +85,7 @@ def pretty_list_amp_tel(list_of_dict):
                 as_key_value("Пациент", amp['name']),
                 as_key_value("Дата рождения", amp['bd']),
                 as_key_value("Локализация", amp['localization']),
+                as_key_value("Клиника", amp['clinic']),
                 as_key_value("Тел", amp['tel']),
                 marker="📝",
             ),
