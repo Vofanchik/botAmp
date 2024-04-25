@@ -1,12 +1,11 @@
-from aiogram import types, F, Router
+from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram.types import FSInputFile
-from aiogram.methods import send_document
 from aiogram.utils.formatting import as_list, as_marked_section, as_key_value, Bold
 
 import config
-from xlsx_logic import find_name
+from xlsx_logic import find_name, find_tel_name
 
 router = Router()
 
@@ -38,6 +37,17 @@ async def find_handler(msg: Message, command: CommandObject):
     await msg.answer(pretty_list_amp(find_name(command.args)))
 
 
+@router.message(Command("t"))
+async def find_handler(msg: Message, command: CommandObject):
+    if command.args is None:
+        await msg.answer(
+            "Ошибка: не переданы аргументы"
+        )
+        return
+
+    await msg.answer(pretty_list_amp_tel(find_tel_name(command.args)))
+
+
 # /media/samba/private/main_file.xlsx
 
 
@@ -51,6 +61,7 @@ def pretty_list_amp(list_of_dict):
                 as_key_value("Компания", amp['company']),
                 as_key_value("Локализация", amp['localization']),
                 as_key_value("Этап", amp['phase']),
+                as_key_value("Группа", amp['group']),
                 marker="✅",
             ),
             sep="\n\n",
@@ -61,6 +72,29 @@ def pretty_list_amp(list_of_dict):
     if final_str == '':
         return "Не найдено"
     return final_str
+
+
+def pretty_list_amp_tel(list_of_dict):
+    final_str = ''
+    for amp in list_of_dict:
+        final_str += (as_list(
+            as_marked_section(
+                Bold("Найден:"),
+                as_key_value("Пациент", amp['name']),
+                as_key_value("Дата рождения", amp['bd']),
+                as_key_value("Локализация", amp['localization']),
+                as_key_value("Тел", amp['tel']),
+                marker="📝",
+            ),
+            sep="\n\n",
+        ).as_html())
+
+        final_str += "\n\n"
+
+    if final_str == '':
+        return "Не найдено"
+    return final_str
+
 
 if __name__ == "__main__":
     print(pretty_list_amp(find_name("Иван")))
