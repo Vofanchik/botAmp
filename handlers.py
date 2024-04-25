@@ -28,24 +28,26 @@ async def file_handler(msg: Message):
 
 @router.message(Command("f"))
 async def find_handler(msg: Message, command: CommandObject):
-    if command.args is None:
-        await msg.answer(
-            "Ошибка: не переданы аргументы"
-        )
-        return
+    if msg.from_user.id in config.user_id_required:
+        if command.args is None:
+            await msg.answer(
+                "Ошибка: не переданы аргументы"
+            )
+            return
 
-    await msg.answer(pretty_list_amp(find_name(command.args)))
+        await msg.answer(pretty_list_amp(find_name(command.args)))
 
 
 @router.message(Command("t"))
 async def find_handler(msg: Message, command: CommandObject):
-    if command.args is None:
-        await msg.answer(
-            "Ошибка: не переданы аргументы"
-        )
-        return
+    if msg.from_user.id in config.user_id_required:
+        if command.args is None:
+            await msg.answer(
+                "Ошибка: не переданы аргументы"
+            )
+            return
 
-    await msg.answer(pretty_list_amp_tel(find_tel_name(command.args)))
+        await msg.answer(pretty_list_amp_tel(find_tel_name(command.args)))
 
 
 # /media/samba/private/main_file.xlsx
