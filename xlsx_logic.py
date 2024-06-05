@@ -7,7 +7,7 @@ def find_name(name):
     ws = wb['main']
     found = []
 
-    for row in ws.iter_rows(max_row=1000, min_col=8, max_col=8):
+    for row in ws.iter_rows(max_row=1500, min_col=8, max_col=8):
         for cell in row:
             if cell.value:
                 if name in cell.value:
@@ -42,6 +42,44 @@ def find_name(name):
                 continue
     return found
 
+def find_name_n_ready(name):
+    wb = load_workbook(filename=config.path_to_main)
+    ws = wb['n_ready']
+    found = []
+    for row in ws.iter_rows(max_row=500, min_col=1, max_col=1):
+        for cell in row:
+            if cell.value:
+                if name in cell.value:
+                    data = {'name': ws.cell(row=cell.row, column=1).value}
+
+                    localization = ws.cell(row=cell.row, column=2).value
+                    if localization:
+                        data['localization'] = localization
+                    else:
+                        data['localization'] = 'нет данных'
+
+                    company = ws.cell(row=cell.row, column=3).value
+                    if company:
+                        data['company'] = company
+                    else:
+                        data['company'] = 'нет данных'
+
+                    reason = ws.cell(row=cell.row, column=4).value
+                    if reason:
+                        data['reason'] = reason
+                    else:
+                        data['reason'] = 'нет данных'
+
+                    again = ws.cell(row=cell.row, column=5).value
+                    if again:
+                        data['again'] = again
+                    else:
+                        data['again'] = 'нет данных'
+
+                    found.append(data)
+            else:
+                continue
+    return found
 
 def find_tel_name(name):
     wb = load_workbook(filename=config.path_to_base)
@@ -85,6 +123,7 @@ def find_tel_name(name):
 
 
 if __name__ == "__main__":
-    print(find_name('Генинсон'))
-    print(find_tel_name('Генинсон'))
+    # print(find_name('Генинсон'))
+    # print()
+    print(find_name_n_ready('Махмудов Муса'))
 
