@@ -103,7 +103,7 @@ def find_tel_name(name):
                     else:
                         data['localization'] = 'нет данных'
 
-                    tel = ws.cell(row=cell.row, column=27).value
+                    tel = ws.cell(row=cell.row, column=26).value
                     if tel:
                         data['tel'] = tel
                     else:
@@ -124,6 +124,6 @@ def find_tel_name(name):
 
 if __name__ == "__main__":
     # print(find_name('Генинсон'))
-    # print()
-    print(find_name_n_ready('Махмудов Муса'))
+    print(find_tel_name('Генинсон'))
+    # print(find_name_n_ready('Махмудов Муса'))
 
