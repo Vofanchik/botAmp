@@ -1,3 +1,5 @@
+import datetime
+
 from openpyxl import load_workbook
 import config
 
@@ -42,6 +44,7 @@ def find_name(name):
                 continue
     return found
 
+
 def find_name_n_ready(name):
     wb = load_workbook(filename=config.path_to_main)
     ws = wb['n_ready']
@@ -81,6 +84,7 @@ def find_name_n_ready(name):
                 continue
     return found
 
+
 def find_tel_name(name):
     wb = load_workbook(filename=config.path_to_base)
     ws = wb['Общий список']
@@ -92,8 +96,10 @@ def find_tel_name(name):
                 if name in cell.value:
                     data = {'name': ws.cell(row=cell.row, column=2).value}
                     bd = ws.cell(row=cell.row, column=4).value
-                    if bd:
+                    if bd and isinstance(bd, datetime.datetime):
                         data['bd'] = bd.strftime("%d.%m.%Y")
+                    elif bd:
+                        data['bd'] = bd
                     else:
                         data['bd'] = 'нет данных'
 
@@ -126,4 +132,3 @@ if __name__ == "__main__":
     # print(find_name('Генинсон'))
     print(find_tel_name('Генинсон'))
     # print(find_name_n_ready('Махмудов Муса'))
-
