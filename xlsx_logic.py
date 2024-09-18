@@ -127,8 +127,33 @@ def find_tel_name(name):
 
     return found
 
+def find_tel_cli(name):
+    wb = load_workbook(filename=config.path_to_contact)
+    ws = wb['main']
+    found = []
+
+    for row in ws.iter_rows(max_row=30, min_col=2, max_col=2):
+        for cell in row:
+            if cell.value:
+                if name in cell.value:
+                    data = {'cli': ws.cell(row=cell.row, column=2).value}
+                    data['adr'] = ws.cell(row=cell.row, column=3).value
+                    data['con'] = ws.cell(row=cell.row, column=4).value
+                    data['name'] = ws.cell(row=cell.row, column=1).value
+
+
+
+                    found.append(data)
+                else:
+                    continue
+
+    return found
+
+
+
 
 if __name__ == "__main__":
     # print(find_name('Генинсон'))
-    print(find_tel_name('Генинсон'))
+    # print(find_tel_name('Генинсон'))
     # print(find_name_n_ready('Махмудов Муса'))
+    print(find_tel_cli("Л"))
