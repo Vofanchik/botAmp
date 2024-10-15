@@ -109,7 +109,7 @@ def find_tel_name(name):
                     else:
                         data['localization'] = 'нет данных'
 
-                    tel = ws.cell(row=cell.row, column=26).value
+                    tel = ws.cell(row=cell.row, column=25).value
                     if tel:
                         data['tel'] = tel
                     else:
