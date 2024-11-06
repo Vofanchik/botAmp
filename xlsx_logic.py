@@ -103,19 +103,19 @@ def find_tel_name(name):
                     else:
                         data['bd'] = 'нет данных'
 
-                    localization = ws.cell(row=cell.row, column=11).value
+                    localization = ws.cell(row=cell.row, column=12).value
                     if localization:
                         data['localization'] = localization
                     else:
                         data['localization'] = 'нет данных'
 
-                    tel = ws.cell(row=cell.row, column=25).value
+                    tel = ws.cell(row=cell.row, column=27).value
                     if tel:
                         data['tel'] = tel
                     else:
                         data['tel'] = 'нет данных'
 
-                    clinic = ws.cell(row=cell.row, column=7).value
+                    clinic = ws.cell(row=cell.row, column=8).value
                     if clinic:
                         data['clinic'] = clinic
                     else:
