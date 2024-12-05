@@ -149,6 +149,45 @@ def find_tel_cli(name):
 
     return found
 
+def find_name_reamp(name):
+    wb = load_workbook(filename=config.path_to_reamp)
+    ws = wb['Лист1']
+    found = []
+
+    for row in ws.iter_rows(max_row=1500, min_col=7, max_col=7):
+        for cell in row:
+            if cell.value:
+                if name in cell.value:
+                    data = {'name': ws.cell(row=cell.row, column=7).value}
+
+                    localization = ws.cell(row=cell.row, column=2).value
+                    if localization:
+                        data['localization'] = localization
+                    else:
+                        data['localization'] = 'нет данных'
+
+                    company = ws.cell(row=cell.row, column=4).value
+                    if company:
+                        data['company'] = company
+                    else:
+                        data['company'] = 'нет данных'
+
+                    phase = ws.cell(row=cell.row, column=9).value
+                    if phase:
+                        data['phase'] = phase
+                    else:
+                        data['phase'] = 'нет данных'
+
+                    group = ws.cell(row=cell.row, column=6).value
+                    if group:
+                        data['group'] = group
+                    else:
+                        data['group'] = 'нет данных'
+
+                    found.append(data)
+            else:
+                continue
+    return found
 
 
 

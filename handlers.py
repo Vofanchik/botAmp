@@ -5,7 +5,7 @@ from aiogram.types import FSInputFile
 from aiogram.utils.formatting import as_list, as_marked_section, as_key_value, Bold
 
 import config
-from xlsx_logic import find_name, find_tel_name, find_name_n_ready, find_tel_cli
+from xlsx_logic import find_name, find_tel_name, find_name_n_ready, find_tel_cli, find_name_reamp
 
 router = Router()
 
@@ -36,6 +36,17 @@ async def find_handler(msg: Message, command: CommandObject):
             return
 
         await msg.answer(pretty_list_amp(find_name(command.args)))
+
+@router.message(Command("r"))
+async def find_handler_repr(msg: Message, command: CommandObject):
+    if msg.from_user.id in config.user_id_required:
+        if command.args is None:
+            await msg.answer(
+                "Ошибка: не переданы аргументы"
+            )
+            return
+
+        await msg.answer(pretty_list_amp(find_name_reamp(command.args)))
 
 
 @router.message(Command("t"))
