@@ -4,7 +4,7 @@ from openpyxl import load_workbook
 import config
 
 
-def find_name(name):
+def find_name(name): #main
     wb = load_workbook(filename=config.path_to_main)
     ws = wb['main']
     found = []
@@ -27,7 +27,7 @@ def find_name(name):
                     else:
                         data['company'] = 'нет данных'
 
-                    phase = ws.cell(row=cell.row, column=10).value
+                    phase = ws.cell(row=cell.row, column=11).value
                     if phase:
                         data['phase'] = phase
                     else:
@@ -39,11 +39,16 @@ def find_name(name):
                     else:
                         data['group'] = 'нет данных'
 
+                    live_loc = ws.cell(row=cell.row, column=10).value
+                    if live_loc:
+                        data['live_loc'] = live_loc
+                    else:
+                        data['live_loc'] = 'нет данных'
+
                     found.append(data)
             else:
                 continue
     return found
-
 
 def find_name_n_ready(name):
     wb = load_workbook(filename=config.path_to_main)
@@ -83,7 +88,6 @@ def find_name_n_ready(name):
             else:
                 continue
     return found
-
 
 def find_tel_name(name):
     wb = load_workbook(filename=config.path_to_base)
@@ -150,15 +154,15 @@ def find_tel_cli(name):
     return found
 
 def find_name_reamp(name):
-    wb = load_workbook(filename=config.path_to_reamp)
-    ws = wb['Лист1']
+    wb = load_workbook(filename=config.path_to_main)
+    ws = wb['change_shell']
     found = []
 
-    for row in ws.iter_rows(max_row=1500, min_col=7, max_col=7):
+    for row in ws.iter_rows(max_row=1500, min_col=9, max_col=9):
         for cell in row:
             if cell.value:
                 if name in cell.value:
-                    data = {'name': ws.cell(row=cell.row, column=7).value}
+                    data = {'name': ws.cell(row=cell.row, column=9).value}
 
                     localization = ws.cell(row=cell.row, column=2).value
                     if localization:
@@ -166,28 +170,88 @@ def find_name_reamp(name):
                     else:
                         data['localization'] = 'нет данных'
 
-                    company = ws.cell(row=cell.row, column=4).value
+                    company = ws.cell(row=cell.row, column=6).value
                     if company:
                         data['company'] = company
                     else:
                         data['company'] = 'нет данных'
 
-                    phase = ws.cell(row=cell.row, column=9).value
+                    phase = ws.cell(row=cell.row, column=12).value
                     if phase:
                         data['phase'] = phase
                     else:
                         data['phase'] = 'нет данных'
 
-                    group = ws.cell(row=cell.row, column=6).value
+                    group = ws.cell(row=cell.row, column=8).value
                     if group:
                         data['group'] = group
                     else:
                         data['group'] = 'нет данных'
 
+                    live_loc = ws.cell(row=cell.row, column=11).value
+                    if live_loc:
+                        data['live_loc'] = live_loc
+                    else:
+                        data['live_loc'] = 'нет данных'
+
+                    count_shell = ws.cell(row=cell.row, column=5).value
+                    if group:
+                        data['count_shell'] = count_shell
+                    else:
+                        data['count_shell'] = 'нет данных'
+
                     found.append(data)
             else:
                 continue
     return found
+
+def find_name_second(name): #main
+    wb = load_workbook(filename=config.path_to_main)
+    ws = wb['secondary_prot']
+    found = []
+
+    for row in ws.iter_rows(max_row=1500, min_col=8, max_col=8):
+        for cell in row:
+            if cell.value:
+                if name in cell.value:
+                    data = {'name': ws.cell(row=cell.row, column=8).value}
+
+                    localization = ws.cell(row=cell.row, column=2).value
+                    if localization:
+                        data['localization'] = localization
+                    else:
+                        data['localization'] = 'нет данных'
+
+                    company = ws.cell(row=cell.row, column=5).value
+                    if company:
+                        data['company'] = company
+                    else:
+                        data['company'] = 'нет данных'
+
+                    phase = ws.cell(row=cell.row, column=11).value
+                    if phase:
+                        data['phase'] = phase
+                    else:
+                        data['phase'] = 'нет данных'
+
+                    group = ws.cell(row=cell.row, column=7).value
+                    if group:
+                        data['group'] = group
+                    else:
+                        data['group'] = 'нет данных'
+
+                    live_loc = ws.cell(row=cell.row, column=10).value
+                    if live_loc:
+                        data['live_loc'] = live_loc
+                    else:
+                        data['live_loc'] = 'нет данных'
+
+                    found.append(data)
+            else:
+                continue
+    return found
+
+
 
 
 
