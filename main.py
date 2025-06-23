@@ -10,7 +10,6 @@ from handlers import router
 
 
 async def main():
-    bot = Bot(token=config.BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
     await bot.delete_webhook(drop_pending_updates=True)
@@ -19,4 +18,5 @@ async def main():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
+    bot = Bot(token=config.BOT_TOKEN, parse_mode=ParseMode.HTML)
     asyncio.run(main())

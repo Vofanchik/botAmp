@@ -3,6 +3,16 @@ from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram.types import FSInputFile
 from aiogram.utils.formatting import as_list, as_marked_section, as_key_value, Bold
+from aiogram import Router
+from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import (
+    KeyboardButton,
+    Message,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+)
 
 import config
 from xlsx_logic import find_name, find_tel_name, find_name_n_ready, find_tel_cli, find_name_reamp, find_name_second
@@ -18,6 +28,67 @@ async def start_handler(msg: Message):
 @router.message(Command("id"))
 async def message_handler(msg: Message):
     await msg.answer(f"Твой ID: {msg.from_user.id}")
+
+class Form(StatesGroup):
+    send = State()
+
+@form_router.message(Command("ub"))
+async def command_start(message: Message, state: FSMContext) -> None:
+    await state.set_state(Form.send)
+    await message.answer(
+        "Отправь файл базы",
+        reply_markup=ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text="/Отмена")
+                ]
+            ],
+            resize_keyboard=True,
+        ),
+    )
+
+
+@form_router.message(Command("Отмена"))
+async def cancel_handler(message: Message, state: FSMContext) -> None:
+    current_state = await state.get_state()
+    if current_state is None:
+        return
+
+    await state.clear()
+    await message.answer(
+        "Отменено",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+
+@form_router.message(Form.send)
+async def process_upload_base(message: Message, state: FSMContext) -> None:
+    if msg.from_user.id in config.user_id_required:
+        try:
+            file_id = message.document.file_id
+            file = await bot.get_file(file_id)
+            file_path = file.file_path
+            print(file_path)
+            if file_path[:-5:-1] == 'xslx':
+                await bot.download_file(file_path, config.path_to_base)
+                await message.answer(
+                    "файл загружен",
+                    reply_markup=ReplyKeyboardRemove(),
+                )
+                await state.clear()
+
+            else:
+                await message.answer(
+                "Отправь файл с расширением xlsx",
+                reply_markup=ReplyKeyboardMarkup(
+                keyboard=[[KeyboardButton(text="/Отмена")]],resize_keyboard=True,),)
+            
+        except:
+            await message.answer(
+                "Непредвиденная ошибка, попробуй ещё раз",
+                reply_markup=ReplyKeyboardMarkup(
+                keyboard=[[KeyboardButton(text="/Отмена")]],resize_keyboard=True,),)
+
 
 
 @router.message(Command("file"))
